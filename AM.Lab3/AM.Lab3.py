@@ -41,6 +41,18 @@ def prepare_data_for_plot(state):
 
 	return vectors
 
+def calculate_load_factor(vectors):
+	load_factor = []
+	for i in range(len(vectors[0])):
+		load_factor.append((vectors[1][i] + 2 * (vectors[2][i] + vectors[3][i])) / 2)
+	return load_factor
+
+def calculate_idle_rate(vectors):
+	idle_rate = []
+	for i in range(len(vectors[0])):
+		idle_rate.append((vectors[1][i] + 2 * vectors[0][i]) / 2)
+	return idle_rate
+
 def main():
 	t = arange(0, 2.5, 0.01)
 	init_state = [1, 0, 0, 0]
@@ -50,6 +62,13 @@ def main():
 	plt.style.use("bmh")	
 
 	plot_probabilities_of_system_states(vectors, t)
+
+	load_factor = calculate_load_factor(vectors)
+	idle_rate = calculate_idle_rate(vectors)
+	
+	plt.figure()
+	plot_coefficients(load_factor, t, "load factor")
+	plot_coefficients(idle_rate, t, "idle rate")
 
 	plt.show()
 
